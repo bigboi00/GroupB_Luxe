@@ -1,0 +1,177 @@
+﻿<head>
+    <style>
+        #search-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 250px;
+            margin-left: 20px;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 130%;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            background: #fff;
+            z-index: 2000;
+            max-height: 600px;
+            overflow-y: auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #search-results div {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        #search-results div:last-child {
+            border-bottom: none;
+        }
+
+        #search-results div:hover {
+            background: #f5f5f5;
+        }
+
+        #search-results img.product-image {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        #search-results a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+
+        #search-results a strong {
+            margin-left: 10px;
+        }
+
+    </style>
+</head>
+<header>
+    <div class="top-bar">
+        <p>Visit our showroom at 6 Raffles Boulevard, #04-101/102, Marina Square, Singapore 039594 </p>
+    </div>
+    <br><br>
+    <div class="header-content">
+        <div class="contact-info">
+            <img src="~/images/phone.png" alt="Phone">
+            <span>+65 1234 5678 (WhatsApp Available)</span>
+        </div>
+        <div class="logo">
+            <a asp-controller="Home" asp-action="Index"><img src="~/images/luxe.png" alt="Luxe Furniture"></a>
+        </div>
+        <div class="user-icons">
+            <a asp-controller="Account" asp-action="Index"><img src="~/images/user.png" alt="User" class="userlogo"></a>
+            <div id="search-icon" style="cursor: pointer;">
+               <img src="~/images/search.png" alt="Search">
+            </div>
+            <div id="search-container" style="display: none;">
+                <input type="text" id="search-input" placeholder="Search products..." autocomplete="off" />
+                <div id="search-results" style="display: none;"></div>
+            </div>
+            <a asp-controller="Cart" asp-action="Index"><img src="~/images/cart.png" alt="Cart"></a>
+        </div>
+    </div>
+    <nav>
+        <ul class="main-nav">
+            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li><a asp-controller="AboutUs" asp-action="Index">About Us</a></li>
+            <li><a asp-controller="ContactUs" asp-action="Index">Contact Us</a></li>
+            <li>
+                <a asp-controller="Furniture" asp-action="Index">Furnitures</a>
+                <ul class="dropdown">
+                    <li>
+                        <a asp-controller="Furniture" asp-action="LivingRoom" asp-route-categoryId="LivingRoom">Living Room</a>
+                        <ul class="sub-dropdown">
+                            <li><a asp-controller="Furniture" asp-action="LivingRoom" asp-route-categoryId="A">Table</a></li>
+                            <li><a asp-controller="Furniture" asp-action="LivingRoom" asp-route-categoryId="B">Sofa</a></li>
+                            <li><a asp-controller="Furniture" asp-action="LivingRoom" asp-route-categoryId="C">TV-Consoles</a></li>
+                            <li><a asp-controller="Furniture" asp-action="LivingRoom" asp-route-categoryId="D">Shelves</a></li>
+                            <li><a asp-controller="Furniture" asp-action="LivingRoom" asp-route-categoryId="E">Headrest</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                       <a asp-controller="Furniture" asp-action="DiningRoom" asp-route-categoryId="DiningRoom">Dining Room</a>
+                        <ul class="sub-dropdown">
+                            <li><a asp-controller="Furniture" asp-action="DiningRoom" asp-route-product="Stools" asp-route-categoryId="F">Stools</a></li>
+                            <li><a asp-controller="Furniture" asp-action="DiningRoom" asp-route-product="Cabinets" asp-route-categoryId="G">Cabinets</a></li>
+                            <li><a asp-controller="Furniture" asp-action="DiningRoom" asp-route-product="DiningTable" asp-route-categoryId="H">DiningTable</a></li>
+                            <li><a asp-controller="Furniture" asp-action="DiningRoom" asp-route-product="Chairs" asp-route-categoryId="I">Chairs</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a asp-controller="Furniture" asp-action="BedRoom" asp-route-categoryId="BedRoom">Bed Room</a>
+                        <ul class="sub-dropdown">
+                            <li><a asp-controller="Furniture" asp-action="BedRoom" asp-route-product="Beds" asp-route-categoryId="J">Beds</a></li>
+                            <li><a asp-controller="Furniture" asp-action="BedRoom" asp-route-product="BedsideTable" asp-route-categoryId="K">BedsideTable</a></li>
+                            <li><a asp-controller="Furniture" asp-action="BedRoom" asp-route-product="Mirror" asp-route-categoryId="L">Mirror</a></li>
+                            <li><a asp-controller="Furniture" asp-action="BedRoom" asp-route-product="Racks" asp-route-categoryId="M">Racks</a></li>
+                            <li><a asp-controller="Furniture" asp-action="BedRoom" asp-route-product="StudyTable" asp-route-categoryId="Q">StudyTable</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a asp-action="Index" asp-controller="Policy">Policy</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<script>
+    document.getElementById('search-icon').addEventListener('click', function () {
+        var searchBar = document.getElementById('search-container');
+        if (searchBar.style.display === 'none' || searchBar.style.display === '') {
+            searchBar.style.display = 'block';
+        } else {
+            searchBar.style.display = 'none';
+        }
+    });
+
+    document.getElementById('search-input').addEventListener('input', function () {
+        var query = this.value;
+        if (query.length >= 1) {
+            fetch(`/Search/GetSearchResults?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    var resultsContainer = document.getElementById('search-results');
+                    resultsContainer.innerHTML = '';
+                    if (data.length > 0) {
+                        data.forEach(product => {
+                            var productItem = document.createElement('div');
+                            productItem.innerHTML = `
+                                    <a href="/Furniture/Product?name=${encodeURIComponent(product.name)}">
+                                        <img src="/product/${product.imagePath}" alt="${product.name}" class="product-image"/>
+                                        <div>
+                                            <strong>${product.name}</strong><br/>
+                                            ${product.category} - $${product.price}
+                                        </div>
+                                    </a>`;
+                            resultsContainer.appendChild(productItem);
+                        });
+                        resultsContainer.style.display = 'block';
+                    } else {
+                        resultsContainer.style.display = 'none';
+                    }
+                });
+        } else {
+            document.getElementById('search-results').style.display = 'none';
+        }
+    });
+</script>
